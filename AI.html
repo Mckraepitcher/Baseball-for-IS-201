@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coin Flipping App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      width: 100%;
+      max-width: 700px;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    p.description {
+      text-align: center;
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    .choice-buttons,
+    .play-again {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    .result-box,
+    .stats-box,
+    .history-box {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 20px;
+    }
+
+    .result-box h2,
+    .stats-box h2,
+    .history-box h2 {
+      margin-top: 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .correct {
+      color: green;
+      font-weight: bold;
+    }
+
+    .wrong {
+      color: red;
+      font-weight: bold;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 22px;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Coin Flipping App</h1>
+    <p class="description">Choose heads or tails, flip the coin, and track your results.</p>
+
+    <div class="choice-buttons">
+      <button onclick="setGuess('Heads')">Guess Heads</button>
+      <button onclick="setGuess('Tails')">Guess Tails</button>
+    </div>
+
+    <div class="result-box">
+      <h2>Current Round</h2>
+      <p>Your guess: <span id="userGuess" class="highlight">None</span></p>
+      <button id="flipBtn" onclick="flipCoin()" disabled>Flip Coin</button>
+      <p id="flipResult">Make a guess to begin.</p>
+    </div>
+
+    <div class="play-again hidden" id="playAgainSection">
+      <button onclick="playAgain()">Play Again</button>
+    </div>
+
+    <div class="stats-box">
+      <h2>Game Stats</h2>
+      <div class="summary-grid">
+        <div class="stat-card">
+          Total Flips
+          <strong id="totalFlips">0</strong>
+        </div>
+        <div class="stat-card">
+          Correct Guesses
+          <strong id="correctGuesses">0</strong>
+        </div>
+        <div class="stat-card">
+          Wrong Guesses
+          <strong id="wrongGuesses">0</strong>
+        </div>
+        <div class="stat-card">
+          Heads
+          <strong id="headsCount">0</strong>
+        </div>
+        <div class="stat-card">
+          Tails
+          <strong id="tailsCount">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="history-box">
+      <h2>Attempt History</h2>
+      <ul id="historyList">
+        <li>No attempts yet.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    let userGuess = "";
+    let totalFlips = 0;
+    let correctGuesses = 0;
+    let wrongGuesses = 0;
+    let headsCount = 0;
+    let tailsCount = 0;
+    let history = [];
+
+    function setGuess(guess) {
+      userGuess = guess;
+      document.getElementById("userGuess").textContent = guess;
+      document.getElementById("flipBtn").disabled = false;
+      document.getElementById("flipResult").textContent = "Ready to flip!";
+      document.getElementById("playAgainSection").classList.add("hidden");
+    }
+
+    function flipCoin() {
+      if (!userGuess) return;
+
+      const result = Math.random() < 0.5 ? "Heads" : "Tails";
+      const isCorrect = userGuess === result;
+
+      totalFlips++;
+
+      if (result === "Heads") {
+        headsCount++;
+      } else {
+        tailsCount++;
+      }
+
+      if (isCorrect) {
+        correctGuesses++;
+      } else {
+        wrongGuesses++;
+      }
+
+      history.push({
+        attempt: totalFlips,
+        guess: userGuess,
+        result: result,
+        correct: isCorrect
+      });
+
+      document.getElementById("flipResult").innerHTML =
+        `The coin landed on <span class="highlight">${result}</span>. ` +
+        `You were <span class="${isCorrect ? "correct" : "wrong"}">${isCorrect ? "correct" : "wrong"}</span>.`;
+
+      updateStats();
+      updateHistory();
+
+      document.getElementById("flipBtn").disabled = true;
+      document.getElementById("playAgainSection").classList.remove("hidden");
+    }
+
+    function playAgain() {
+      userGuess = "";
+      document.getElementById("userGuess").textContent = "None";
+      document.getElementById("flipResult").textContent = "Make a guess to begin.";
+      document.getElementById("flipBtn").disabled = true;
+      document.getElementById("playAgainSection").classList.add("hidden");
+    }
+
+    function updateStats() {
+      document.getElementById("totalFlips").textContent = totalFlips;
+      document.getElementById("correctGuesses").textContent = correctGuesses;
+      document.getElementById("wrongGuesses").textContent = wrongGuesses;
+      document.getElementById("headsCount").textContent = headsCount;
+      document.getElementById("tailsCount").textContent = tailsCount;
+    }
+
+    function updateHistory() {
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = "";
+
+      history.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          Attempt ${item.attempt}: 
+          You guessed <strong>${item.guess}</strong>, 
+          coin landed on <strong>${item.result}</strong> — 
+          <span class="${item.correct ? "correct" : "wrong"}">
+            ${item.correct ? "Correct" : "Wrong"}
+          </span>
+        `;
+        historyList.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

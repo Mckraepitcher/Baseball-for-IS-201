@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseball</title>
+    <!--<link rel="stylesheet" type="text/css" href="styles/styles.css">-->
+    <link rel="stylesheet" type="text/css" href="css/myStyles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 id="top">McKrae and baseball, plus some stats from the MLB</h1>
+
+        <a href="AI.html" class="button-link">Go to the AI page</a>
+        <br>
+        <a href="index.html" class="button-link">My resume</a>
+
+        <h2>My Baseball Journey</h2>
+
+        <ul>
+            <li> 
+                I started playing baseball with my dad in the back yard when I was little
+                <ol>
+                    <li class="emphasizedText">He taught me how to swing a bat and throw a ball. He instilled in me at a young age the love for baseball.</li>
+                </ol>
+            </li>
+
+            <li>
+                He coached me growing up on Little League teams
+                <ol>
+                    <li class="emphasizedText">I played on organized baseball teams from the time I was 10 years old.</li>
+                </ol>
+            </li>
+
+            <li>
+                In high school I continued my career playing on the school team
+                <ol>
+                    <li class="emphasizedText">I played pitcher, short stop, and center field.</li>
+                </ol>
+            </li>
+        </ul>
+
+        <h3>Me and my team when we were little</h3>
+
+        <img src="assets/img/young Mckrae.jpeg" alt="Young Mckrae playing baseball" width="300">
+
+        <h3>My high school team</h3>
+
+        <img src="assets/img/baseball.jpg" alt="High school baseball team" width="300">
+
+        <br><br>
+
+        <h3>Blue Jays highlights from World Series Game 5</h3>
+        <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/2jM5rWJFsT4"
+            title="Blue Jays highlights from World Series Game 5"
+            frameborder="0"
+            allowfullscreen>
+        </iframe>
+
+        <div class="content-box" id="tableau-section">
+            <h3>Interactive Tableau Graph Showing % of MLB Players from Other Continents</h3>
+
+            <div class="tableauPlaceholder" id="vizBaseball" style="position: relative;">
+                <noscript>
+                    <a href="#">
+                        <img
+                            alt="Baseball Tableau Dashboard"
+                            src="https://public.tableau.com/static/images/Ba/Baseball_34/Dashboard1/1_rss.png"
+                            style="border: none;">
+                    </a>
+                </noscript>
+
+                <object class="tableauViz" style="display:none;">
+                    <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F">
+                    <param name="embed_code_version" value="3">
+                    <param name="site_root" value="">
+                    <param name="name" value="Baseball_34/Dashboard1">
+                    <param name="tabs" value="no">
+                    <param name="toolbar" value="yes">
+                    <param name="showVizHome" value="n">
+                </object>
+            </div>
+
+            <script type="text/javascript">
+                var divElement = document.getElementById("vizBaseball");
+                var vizElement = divElement.getElementsByTagName("object")[0];
+                vizElement.style.width = "100%";
+                vizElement.style.height = "700px";
+
+                var scriptElement = document.createElement("script");
+                scriptElement.src = "https://public.tableau.com/javascripts/api/viz_v1.js";
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+        </div>
+
+        <br><br><br><br>
+
+        <div class="bottom-link">
+            <a href="#top">Go to top</a>
+        </div>
+    </div>
+</body>
+</html>
